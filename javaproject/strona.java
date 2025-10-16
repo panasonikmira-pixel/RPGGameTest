@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 
 class Character {
     private String name;
@@ -11,13 +12,47 @@ class Character {
         this.hp = hp;
     }
 
-    public void animalSound() {
+    public void CharacterSound() {
         System.out.println("The character makes a sound.");
     }
 }
 
+/// //////////////////////////////////////////////////////////
+class Enemy{
+    private String name;
+    private int level;
+    private int hp;
+
+    public Enemy(String name, int level, int hp) {
+        this.name = name;
+        this.level = level;
+        this.hp = hp;
+    }
+
+    public void EnemySound() {
+        System.out.println("The enemy makes a sound.");
+    }
+}
+
+class Goul extends Enemy {
+    public Goul(String name, int level, int hp) {
+        super(name, level, hp);
+    }
+
+    @Override
+    public void EnemySound() {
+        System.out.println("The Goul says: 1000-7!");
+    }
+}
+/// ////////////////////////////////////////////////////
 
 
+
+
+
+
+
+/// ///////////////////////////////////////////////////
 
 class Warrior extends Character {
     public Warrior(String name, int level, int hp) {
@@ -25,7 +60,7 @@ class Warrior extends Character {
     }
 
     @Override
-    public void animalSound() {
+    public void CharacterSound() {
         System.out.println("The Warrior says: roar!");
     }
 }
@@ -40,7 +75,7 @@ class Mage extends Character {
     }
 
     @Override
-    public void animalSound() {
+    public void CharacterSound() {
         System.out.println("The Mage says: bow wow");
     }
 }
@@ -55,7 +90,7 @@ class Cleric extends Character {
     }
 
     @Override
-    public void animalSound() {
+    public void CharacterSound() {
         System.out.println("The Cleric says: bow wow");
     }
 }
@@ -63,7 +98,7 @@ class Cleric extends Character {
 
 
 
-public class strona {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -97,6 +132,6 @@ public class strona {
         }
 
         System.out.println("\nYour character:");
-        player.animalSound();
+        player.CharacterSound();
     }
 }
