@@ -1,0 +1,258 @@
+import java.util.Scanner;
+import java.util.Random;
+
+class Character {
+    private String name;
+    private int level;
+    private int hp;
+
+    public Character(String name, int level, int hp) {
+        this.name = name;
+        this.level = level;
+        this.hp = hp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+
+    public void CharacterSound() {
+        System.out.println("Character make sound");
+    }
+}
+
+class Enemy {
+    private String name;
+    private int level;
+    private int hp;
+
+    public Enemy(String name, int level, int hp) {
+        this.name = name;
+        this.level = level;
+        this.hp = hp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void EnemySound() {
+        System.out.println("Enemy make sound");
+    }
+}
+
+class Battle {
+    private Character player;
+    private Goul goul;
+
+    public Battle(Character player, Goul goul) {
+        this.player = player;
+        this.goul = goul;
+    }
+
+    public void startFight() {
+        System.out.println(" Battle start " + player.getName() + " and GOul " + goul.getName());
+
+        int playerHp = player.getHp();
+        int goulHp = goul.getHp();
+
+        while (playerHp > 0 && goulHp > 0) {
+            int playerDamage = (int)(Math.random() * player.getLevel() * 2);
+            int goulDamage = (int)(Math.random() * goul.getLevel() * 2);
+
+            goulHp -= playerDamage;
+            playerHp -= goulDamage;
+
+            System.out.println(player.getName() + " HIT " + playerDamage + " dmg");
+            System.out.println(goul.getName() + " HIT " + goulDamage + " dmg");
+
+            System.out.println("HP " + player.getName() + " : " + Math.max(playerHp, 0));
+            System.out.println("HP " + goul.getName() + " : " + Math.max(goulHp, 0));
+            System.out.println("-----------------------------");
+        }
+
+        if (playerHp > 0) {
+            System.out.println("You win " + player.getName());
+        } else {
+            System.out.println("You lose");
+        }
+    }
+}
+
+class Goul extends Enemy {
+    public Goul(String name, int level, int hp) {
+        super(name, level, hp);
+    }
+
+    @Override
+    public void EnemySound() {
+        System.out.println("The Goul says: 1000-7!");
+    }
+}
+
+class Warrior extends Character {
+    public Warrior(String name, int level, int hp) {
+        super(name, level, hp);
+    }
+
+    @Override
+    public void CharacterSound() {
+        System.out.println("The Warrior says: roar!");
+    }
+}
+
+class Mage extends Character {
+    public Mage(String name, int level, int hp) {
+        super(name, level, hp);
+    }
+
+    @Override
+    public void CharacterSound() {
+        System.out.println("The Mage says: lol");
+    }
+}
+
+class Cleric extends Character {
+    public Cleric(String name, int level, int hp) {
+        super(name, level, hp);
+    }
+
+    @Override
+    public void CharacterSound() {
+        System.out.println("The Cleric says: bow wow");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        System.out.println("Hello");
+        System.out.println("Choose option:");
+        System.out.println("1 - Create character");
+        System.out.print("Your choice: ");
+        String choice = scanner.nextLine();
+
+        if (choice.equals("1")) {
+   
+            System.out.println("Choose class: 1-Warrior, 2-Mage or 3-Cleric");
+            String classChoice = scanner.nextLine();
+
+            System.out.print("Enter name: ");
+            String name = scanner.nextLine();
+
+            System.out.print("Enter lvl: ");
+            int level = scanner.nextInt();
+
+            System.out.print("Enter hp: ");
+            int hp = scanner.nextInt();
+            scanner.nextLine(); 
+
+            Character player;
+
+            switch (classChoice) {
+                case "1":
+                    player = new Warrior(name, level, hp);
+                    break;
+                case "2":
+                    player = new Mage(name, level, hp);
+                    break;
+                case "3":
+                    player = new Cleric(name, level, hp);
+                    break;
+                default:
+                    System.out.println("sozdan normis");
+                    player = new Character(name, level, hp);
+            }
+
+            System.out.println("Your character:");
+            player.CharacterSound();
+
+            boolean continueGame = true;
+
+            while (continueGame) {
+                System.out.println("Choose option:");
+                System.out.println("1 - Gambling");
+                System.out.println("2 - figth");
+                System.out.println("3 - exit");
+                System.out.print("Your choice: ");
+                String actionChoice = scanner.nextLine();
+
+                switch (actionChoice) {
+                    case "1":
+                        playDiceGame(scanner, random);
+                        break;
+                    case "2":
+                        Goul goul = new Goul("Ken", 5, 80);
+                        Battle battle = new Battle(player, goul);
+                        battle.startFight();
+                        break;
+                    case "3":
+                        System.out.println("buy buy");
+                        continueGame = false;
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                }
+            }
+
+
+        } else {
+            System.out.println("Invalid choice");
+        }
+    }
+
+    public static void playDiceGame(Scanner scanner, Random random) {
+    int coins = 100;
+    System.out.println("Dice Game:");
+    System.out.println("You will play against the OLDgambler");
+    System.out.println("Type 'exit' anytime to leave the game");
+
+    while (coins > 0) {
+        System.out.println("Press Enter to roll the dice or type 'exit' to quit:");
+        String input = scanner.nextLine();
+
+        if (input.equalsIgnoreCase("exit")) {
+            System.out.println("You chose to exit the game");
+            return;
+        }
+
+        int playerRoll = random.nextInt(6) + 1;
+        System.out.println("You rolled a " + playerRoll);
+
+        System.out.println("OLDgambler's turn");
+        int robotRoll = random.nextInt(6) + 1;
+        System.out.println("OLDgambler rolled a " + robotRoll);
+
+        if (playerRoll > robotRoll) {
+            coins += 10;
+            System.out.println("You win. Your money: " + coins);
+        } else if (robotRoll > playerRoll) {
+            coins -= 25;
+            System.out.println("OLDgambler wins. Your money: " + coins);
+        } else {
+            System.out.println("Draw.");
+        }
+    }
+
+    System.out.println("Game over. You need credits.");
+}
+}
