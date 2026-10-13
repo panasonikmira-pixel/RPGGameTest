@@ -1,0 +1,115 @@
+/**
+ * Klasa przechowująca konfigurację aplikacji.
+ * Implementuje wzorzec Singleton.
+ */
+public class AppConfig {
+
+    private static AppConfig instance;
+
+    private String appName;
+    private String version;
+    private boolean debugMode;
+
+    /**
+     * Prywatny konstruktor uniemożliwiający
+     * tworzenie obiektów z zewnątrz.
+     */
+    private AppConfig() {
+    }
+
+    /**
+     * Zwraca jedyną instancję klasy AppConfig.
+     */
+    public static AppConfig getInstance() {
+        if (instance == null) {
+            instance = new AppConfig();
+        }
+        return instance;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+}
+2. Klasa UserService.java
+java
+/**
+ * Klasa korzystająca z konfiguracji aplikacji.
+ */
+public class UserService {
+
+    private final AppConfig config;
+
+    /**
+     * Pobiera wspólną instancję konfiguracji.
+     */
+    public UserService() {
+        this.config = AppConfig.getInstance();
+    }
+
+    /**
+     * Wyświetla informacje o konfiguracji aplikacji.
+     */
+    public void printInfo() {
+        System.out.println("Nazwa aplikacji: "
+                + config.getAppName());
+        System.out.println("Wersja: "
+                + config.getVersion());
+        System.out.println("Tryb debugowania: "
+                + config.isDebugMode());
+        System.out.println("----------------------");
+    }
+}
+3. Klasa Main.java
+java
+/**
+ * Główna klasa programu.
+ */
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Pobranie instancji konfiguracji
+        AppConfig config1 = AppConfig.getInstance();
+
+        // Ustawienie przykładowych wartości
+        config1.setAppName("2TP-App");
+        config1.setVersion("1.0");
+        config1.setDebugMode(true);
+
+        // Utworzenie dwóch obiektów UserService
+        UserService user1 = new UserService();
+        UserService user2 = new UserService();
+
+        // Wyświetlenie informacji
+        user1.printInfo();
+        user2.printInfo();
+
+        // Pobranie drugiej referencji do konfiguracji
+        AppConfig config2 = AppConfig.getInstance();
+
+        // Sprawdzenie, czy obie referencje wskazują
+        // na ten sam obiekt
+        System.out.println(config1 == config2);
+    }
+}
